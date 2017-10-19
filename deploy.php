@@ -24,7 +24,9 @@ add('writable_dirs', []);
 
 host('php128.top')
     ->user('www-deploy')
-    ->set('deploy_path', '~/{{application}}');    
+    ->port(22)
+    ->identityFile('~/.ssh/id_rsa')
+    ->set('deploy_path', '~/{{application}}');
     
 // Tasks
 task('pwd', function () {
