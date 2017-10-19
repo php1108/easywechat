@@ -4,29 +4,26 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use EasyWeChat\Foundation\Application;
+use Log;
 
 class ApiController extends Controller
 {
-    public function api()
+    /**
+     * 处理微信的请求消息
+     *
+     * @return string
+     */
+    public function serve()
     {
+        Log::info('request arrived.'); # 注意：Log 为 Laravel 组件，所以它记的日志去 Laravel 日志看，而不是 EasyWeChat 日志
 
-        $options = [
-            'debug' => true,
-            'app_id' => 'wx8c090e47413e84ec',//'your-app-id',
-            'secret' => 'c144249dc9e67f9928bf921d1c69dfbf',//'you-secret',
-            'token' => 'weixin',
-            // 'aes_key' => null, // 可选
-            'log' => [
-                'level' => 'debug',
-                'file' => '/tmp/easywechat.log', // XXX: 绝对路径！！！！
-            ],
-            //...
-        ];
-        $app = new Application($options);
-        $response = $app->server->serve();
-        // 将响应输出
-        return $response;
+        $wechat = app('wechat');
+        $wechat->server->setMessageHandler(function($message){
+            return "欢迎关注 overtrue！";
+        });
+
+        Log::info('return response.');
+
+        return $wechat->server->serve();
     }
-
-
 }
