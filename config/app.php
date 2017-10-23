@@ -2,6 +2,18 @@
 
 return [
 
+    "options" => array(
+        'debug' => false,
+        'app_id' => env('WECHAT_APPID', 'wx8c090e47413e84ec'),
+        'secret' => env('WECHAT_SECRET', 'c144249dc9e67f9928bf921d1c69dfbf'),
+        'token' => env('WECHAT_TOKEN', 'weixin'),
+        'cache' => '',
+        'aes_key' => env('WECHAT_AES_KEY', ''),
+        'log' => array(
+            'level' => env('WECHAT_LOG_LEVEL', 'debug'),
+            'file' => env('WECHAT_LOG_FILE',  storage_path('logs/wechat.log')),
+        ),
+    ),
     /*
     |--------------------------------------------------------------------------
     | Application Name
