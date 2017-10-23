@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use EasyWeChat\Foundation\Application;
 use Log;
 
 class ApiController extends Controller
 {
+
     /**
      * 处理微信的请求消息
      *
@@ -15,19 +15,18 @@ class ApiController extends Controller
      */
     public function serve()
     {
-        $options = config('app.options');
-        $app = new Application($options);
-// 从项目实例中得到服务端应用实例。
-        $server = $app->server;
-        $server->setMessageHandler(function ($message) {
-            // $message->FromUserName // 用户的 openid
-            // $message->MsgType // 消息类型：event, text....
-            return "您好！欢迎关注我!";
-        });
-        $response = $server->serve();
-        return $response;
+        Log::info('request arrived.'); # 注意：Log 为 Laravel 组件，所以它记的日志去 Laravel 日志看，而不是 EasyWeChat 日志
 
+        $wechat = app('wechat');
+        $wechat->server->setMessageHandler(function($message){
+            return "欢迎关注 overtrue！";
+        });
+
+        Log::info('return response.');
+
+        return $wechat->server->serve();
     }
+
 //    public function serve()
 //    {
 //        Log::info('request arrived.');
@@ -66,5 +65,37 @@ class ApiController extends Controller
 //
 //        Log::info('return response.');
 //        return $app->server->serve();
+//    }
+//    /**
+//     * 处理微信的请求消息
+//     *
+//     * @return string
+//     */
+//    public function serve1()
+//    {
+////        $options = config('app.options');
+//        $options = [
+//            'debug'  => true,
+//            'app_id' => 'wx8c090e47413e84ec',
+//            'secret' => 'c144249dc9e67f9928bf921d1c69dfbf',
+//            'token'  => 'weixin',
+//            // 'aes_key' => null, // 可选
+//            'log' => [
+//                'level' => 'debug',
+//                'file'  => '/tmp/easywechat.log', // XXX: 绝对路径！！！！
+//            ],
+//            //…
+//        ];
+//        $app = new Application($options);
+//// 从项目实例中得到服务端应用实例。
+//        $server = $app->server;
+//        $server->setMessageHandler(function ($message) {
+//            // $message->FromUserName // 用户的 openid
+//            // $message->MsgType // 消息类型：event, text....
+//            return "您好！欢迎关注我!";
+//        });
+//        $response = $server->serve();
+//        return $response;
+//
 //    }
 }
