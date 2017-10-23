@@ -34,7 +34,7 @@ class ApiController extends Controller
             if ($message->MsgType=='event') {
                 $user_openid = $message->FromUserName;
                 if ($message->Event=='subscribe') {
-                    　　　　　　　　//下面是你点击关注时，进行的操作
+                //下面是你点击关注时，进行的操作
                 $user_info['unionid'] = $message->ToUserName;
                 $user_info['openid'] = $user_openid;
                 $userService = $app->user;
@@ -53,7 +53,7 @@ class ApiController extends Controller
                     return '您的信息由于某种原因没有保存，请重新关注';
                 }
             }else if ($message->Event=='unsubscribe') {
-                    　　　　　　　　//取消关注时执行的操作，（注意下面返回的信息用户不会收到，因为你已经取消关注，但别的操作还是会执行的<如：取消关注的时候，要把记录该用户从记录微信用户信息的表中删掉>）
+                //取消关注时执行的操作，（注意下面返回的信息用户不会收到，因为你已经取消关注，但别的操作还是会执行的<如：取消关注的时候，要把记录该用户从记录微信用户信息的表中删掉>）
                 if (WxStudent::weixin_cancel_attention($user_openid)) {
                     return '已取消关注';
                 }
